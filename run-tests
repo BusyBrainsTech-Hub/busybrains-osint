@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+PROJECT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$PROJECT_DIR"
+
+echo "=========================================="
+echo " BUSYBRAINS OSINT - PROJECT TEST SUITE"
+echo "=========================================="
+
+echo
+echo "[1/3] Running regression tests..."
+python3 -m unittest discover -s tests -v
+
+echo
+echo "[2/3] Checking Python syntax..."
+python3 - <<'PY'
+from pathlib import Path
+import py_compile
+import sys
+
+root = Path(__file__).resolve().parent
+files = sorted(
+    path for path in root.rglob("*.py")
+    if not any(
+        part in {".git", "__pycache__", ".venv", "venv"}
+        for part in path.parts
+    )
+)
+
+for path in files:
+    py_compile.compile(str(path), doraise=True)
+    print(f"PASS: {path.relative_to(root)}")
+
+print(f"\n{len(files)} Python files compiled successfully.")
+PY
+
+echo
+echo "[3/3] Running core application self-test..."
+./busybrains-osint self-test
+
+echo
+echo "=========================================="
+echo " ALL PROJECT TESTS PASSED"
+echo "=========================================="

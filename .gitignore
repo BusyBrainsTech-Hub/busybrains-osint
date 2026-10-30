@@ -1,0 +1,57 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*
+*secret*
+
+# Local databases and runtime data
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+storage/*
+!storage/.gitkeep
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# Generated reports and investigation exports
+reports/*
+!reports/.gitkeep
+
+# Local backups and temporary copies
+*.bak
+*.backup
+*.backup_*
+*.backup-*
+*.before-*
+*.pre-*
+*.old
+*~
+
+# Generated local integrity inventory
+release_manifest.json
+
+# Editor and operating-system files
+.DS_Store
+.vscode/
+.idea/
+
+# Local before-change snapshots
+*.before_*
